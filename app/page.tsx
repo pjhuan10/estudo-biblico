@@ -1,232 +1,172 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/lib/supabase";
-import { getOpenPoll } from "@/lib/polls";
-import { isAdmin } from "@/lib/admin";
-import { motion } from "framer-motion";
-
-function cx(...c: Array<string | false | undefined | null>) {
-  return c.filter(Boolean).join(" ");
-}
 
 export default function Home() {
-  const [logged, setLogged] = useState(false);
-  const [pollActive, setPollActive] = useState(false);
-  const [admin, setAdmin] = useState(false);
+  const [email, setEmail] = useState<string | null>(null);
+  const isLogged = useMemo(() => !!email, [email]);
 
-  const voteLabel = useMemo(() => (pollActive ? "ativa" : "sem votação"), [pollActive]);
-
-  async function load() {
+  async function loadUser() {
     const { data } = await supabase.auth.getUser();
-    setLogged(!!data.user);
-
-    try {
-      const p = await getOpenPoll();
-      setPollActive(!!p);
-    } catch {
-      setPollActive(false);
-    }
-
-    try {
-      setAdmin(await isAdmin());
-    } catch {
-      setAdmin(false);
-    }
+    setEmail(data.user?.email ?? null);
   }
 
   useEffect(() => {
-    void load();
+    loadUser();
 
     const { data: sub } = supabase.auth.onAuthStateChange(() => {
-      void load();
+      loadUser();
     });
 
-    return () => sub.subscription.unsubscribe();
+    return () => {
+      sub.subscription.unsubscribe();
+    };
   }, []);
 
   async function logout() {
     await supabase.auth.signOut();
   }
 
-  const container = {
-    hidden: { opacity: 0 },
-    show: { opacity: 1, transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
-  };
-
-  const item = {
-    hidden: { opacity: 0, y: 10, filter: "blur(6px)" },
-    show: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.55, ease: "easeOut" } },
-  };
-
   return (
     <main className="min-h-screen bg-black text-white">
-      <motion.div
-        className="mx-auto max-w-6xl px-6 py-10"
-        variants={container}
-        initial="hidden"
-        animate="show"
-      >
+      <div className="mx-auto max-w-6xl px-6 py-10">
         {/* HERO */}
-        <motion.section
-          variants={item}
-          className="relative overflow-hidden rounded-3xl ring-1 ring-white/10 bg-white/5"
+        <section
+          className={[
+            "animate-enter",
+            "relative overflow-hidden rounded-3xl ring-1 ring-white/10 bg-white/5",
+          ].join(" ")}
         >
-          {/* background layers */}
-          <img
-            src="/hero.png"
-            alt="Bíblia iluminada"
-            className="absolute inset-0 h-full w-full object-cover opacity-55"
-          />
-          <div className="aurora" />
-          <div className="grain" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/55 to-black/80" />
+          {/* bg image */}
+          <div className="absolute inset-0">
+            <img
+              src="/hero.png"
+              alt=""
+              className="h-full w-full object-cover opacity-30"
+            />
+            {/* overlays p/ dar vibe tech */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/70" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(34,211,238,0.22),transparent_55%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(255,255,255,0.07),transparent_55%)]" />
+          </div>
 
           {/* content */}
-          <div className="relative p-8 md:p-12">
+          <div className="relative p-8 md:p-10">
             <div className="text-xs tracking-widest text-cyan-300/80">
               ESTUDO BÍBLICO
             </div>
 
-            <div className="mt-3 flex flex-col gap-2">
-              <h1 className="text-3xl md:text-5xl font-semibold tracking-tight">
-                Toda quinta-feira às{" "}
-                <span className="text-cyan-300">21:00</span>
-              </h1>
+            <h1 className="mt-3 text-4xl md:text-5xl font-semibold tracking-tight">
+              Toda quinta-feira às{" "}
+              <span className="text-cyan-300">21:00</span>
+            </h1>
 
-              <p className="max-w-2xl text-gray-200/90 leading-relaxed">
-                Um ambiente simples e elegante para acompanhar o estudo do dia,
-                marcar presença e votar no próximo tema — tudo em tempo real.
-              </p>
-            </div>
+            <p className="mt-4 max-w-2xl text-base md:text-lg text-gray-200/80 leading-relaxed">
+              Um ambiente simples e moderno para acompanhar o estudo do dia,
+              marcar presença e votar no próximo tema — tudo em tempo real.
+            </p>
 
-            {/* actions */}
             <div className="mt-7 flex flex-wrap gap-3">
-              <ModernLink href="/estudo" primary>
-                Abrir estudo do dia →
-              </ModernLink>
+              <a
+                href="/estudo"
+                className="group inline-flex items-center justify-center rounded-2xl px-5 py-3 bg-cyan-500/20 ring-1 ring-cyan-300/30 hover:bg-cyan-500/30 transition active:scale-[0.99]"
+              >
+                <span className="font-medium">Abrir estudo do dia</span>
+                <span className="ml-2 transition-transform group-hover:translate-x-0.5">
+                  →
+                </span>
+              </a>
 
-              <ModernLink href="/mes-a-mes">
+              <a
+                href="/mes-a-mes"
+                className="inline-flex items-center justify-center rounded-2xl px-5 py-3 bg-white/5 ring-1 ring-white/10 hover:bg-white/10 transition active:scale-[0.99]"
+              >
                 Calendário mês a mês
-              </ModernLink>
+              </a>
 
-              <ModernLink href="/votacao">
-                Votação • {voteLabel}
-              </ModernLink>
+              <a
+                href="/votacao"
+                className="inline-flex items-center justify-center rounded-2xl px-5 py-3 bg-white/5 ring-1 ring-white/10 hover:bg-white/10 transition active:scale-[0.99]"
+              >
+                Votação
+              </a>
 
-              {!logged ? (
-                <ModernLink href="/login">
-                  Entrar
-                </ModernLink>
-              ) : (
-                <ModernButton onClick={logout}>
+              {isLogged ? (
+                <button
+                  onClick={logout}
+                  className="inline-flex items-center justify-center rounded-2xl px-5 py-3 bg-white/5 ring-1 ring-white/10 hover:bg-white/10 transition active:scale-[0.99]"
+                >
                   Sair
-                </ModernButton>
+                </button>
+              ) : (
+                <a
+                  href="/login"
+                  className="inline-flex items-center justify-center rounded-2xl px-5 py-3 bg-white/5 ring-1 ring-white/10 hover:bg-white/10 transition active:scale-[0.99]"
+                >
+                  Entrar
+                </a>
               )}
             </div>
 
-            {admin && (
-              <div className="mt-5 flex flex-wrap gap-3">
-                <ModernLink href="/admin/estudos">
-                  Admin • Estudos
-                </ModernLink>
-                <ModernLink href="/admin/votacao">
-                  Admin • Votação
-                </ModernLink>
-              </div>
-            )}
+            {/* micro detail */}
+            <div className="mt-6 text-xs text-gray-300/70">
+              Dica: salva esse link na tela inicial do celular e usa como app.
+            </div>
           </div>
-        </motion.section>
+        </section>
 
         {/* CARDS */}
-        <div className="mt-8 grid gap-4 md:grid-cols-3">
-          <InfoCard title="Conteúdo do dia" subtitle="Estudo">
-            Resumo e textos bíblicos organizados por encontro.
-          </InfoCard>
-
-          <InfoCard title="Marcar participação" subtitle="Presença">
-            Um clique para marcar/desmarcar. Contador atualiza na hora.
-          </InfoCard>
-
-          <InfoCard title="Escolha do próximo tema" subtitle="Votação">
-            Enquete em tempo real com resultado agregado (sem expor quem votou).
-          </InfoCard>
-        </div>
-
-        <motion.div variants={item} className="mt-8 text-xs text-gray-500">
-          Feito para seu grupo — e pronto pra você compartilhar com outros também.
-        </motion.div>
-      </motion.div>
+        <section className="mt-8 grid gap-4 md:grid-cols-3">
+          <Card
+            title="Conteúdo do dia"
+            kicker="Estudo"
+            desc="Resumo e textos bíblicos organizados por encontro."
+            href="/estudo"
+          />
+          <Card
+            title="Marcar participação"
+            kicker="Presença"
+            desc="Um clique pra marcar/desmarcar. Contador atualiza na hora."
+            href="/estudo"
+          />
+          <Card
+            title="Escolha do próximo tema"
+            kicker="Votação"
+            desc="Enquete em tempo real com resultado agregado (sem expor quem votou)."
+            href="/votacao"
+          />
+        </section>
+      </div>
     </main>
   );
 }
 
-function ModernLink({
-  href,
-  children,
-  primary,
-}: {
-  href: string;
-  children: React.ReactNode;
-  primary?: boolean;
-}) {
-  return (
-    <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}>
-      <Link
-        href={href}
-        className={cx(
-          "inline-flex items-center justify-center rounded-2xl px-6 py-3 font-medium transition",
-          "ring-1 ring-white/10 bg-white/5 hover:bg-white/10",
-          "shadow-[0_0_0_1px_rgba(255,255,255,0.02)]",
-          primary && "bg-cyan-400 text-black ring-0 hover:bg-cyan-300"
-        )}
-      >
-        {children}
-      </Link>
-    </motion.div>
-  );
-}
-
-function ModernButton({
-  onClick,
-  children,
-}: {
-  onClick: () => void | Promise<void>;
-  children: React.ReactNode;
-}) {
-  return (
-    <motion.button
-      onClick={onClick}
-      whileHover={{ y: -2 }}
-      whileTap={{ scale: 0.98 }}
-      className="inline-flex items-center justify-center rounded-2xl px-6 py-3 font-medium transition ring-1 ring-white/10 bg-white/5 hover:bg-white/10 shadow-[0_0_0_1px_rgba(255,255,255,0.02)]"
-    >
-      {children}
-    </motion.button>
-  );
-}
-
-function InfoCard({
+function Card({
+  kicker,
   title,
-  subtitle,
-  children,
+  desc,
+  href,
 }: {
+  kicker: string;
   title: string;
-  subtitle: string;
-  children: React.ReactNode;
+  desc: string;
+  href: string;
 }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10, filter: "blur(6px)" }}
-      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-      transition={{ duration: 0.55, ease: "easeOut" }}
-      whileHover={{ y: -3 }}
-      className="rounded-2xl bg-white/5 ring-1 ring-white/10 p-6 transition"
+    <a
+      href={href}
+      className={[
+        "animate-enter",
+        "rounded-3xl bg-white/5 ring-1 ring-white/10 p-6",
+        "hover:bg-white/7 hover:ring-white/20 transition",
+        "active:scale-[0.99]",
+      ].join(" ")}
     >
-      <p className="text-xs text-gray-400">{subtitle}</p>
-      <p className="mt-2 text-lg font-medium">{title}</p>
-      <p className="mt-2 text-sm text-gray-300 leading-relaxed">{children}</p>
-    </motion.div>
+      <div className="text-xs text-gray-400">{kicker}</div>
+      <div className="mt-2 text-xl font-semibold">{title}</div>
+      <p className="mt-2 text-sm text-gray-300 leading-relaxed">{desc}</p>
+      <div className="mt-4 text-sm text-cyan-300/80">Abrir →</div>
+    </a>
   );
 }
