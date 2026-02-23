@@ -57,7 +57,7 @@ export default function Home() {
 
   const item = {
     hidden: { opacity: 0, y: 10, filter: "blur(6px)" },
-    show: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] } },
+    show: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.55, ease: "easeOut" } },
   };
 
   return (
@@ -220,7 +220,7 @@ function InfoCard({
     <motion.div
       initial={{ opacity: 0, y: 10, filter: "blur(6px)" }}
       animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-      transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.55, ease: "easeOut" }}
       whileHover={{ y: -3 }}
       className="rounded-2xl bg-white/5 ring-1 ring-white/10 p-6 transition"
     >
