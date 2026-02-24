@@ -258,7 +258,7 @@ export default function AdminVotacaoPage() {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Ex: Qual o tema do próximo estudo?"
-                className="mt-1 w-full rounded-xl bg-black/40 px-4 py-3 ring-1 ring-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                className="mt-1 w-full rounded-xl bg-black/40 px-4 py-3 ring-1 ring-white/10 focus:outline-none focus:ring-2 focus:ring-amber-500"
               />
             </div>
 
@@ -268,13 +268,13 @@ export default function AdminVotacaoPage() {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Ex: Vote até domingo"
-                className="mt-1 w-full rounded-xl bg-black/40 px-4 py-3 ring-1 ring-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                className="mt-1 w-full rounded-xl bg-black/40 px-4 py-3 ring-1 ring-white/10 focus:outline-none focus:ring-2 focus:ring-amber-500"
               />
             </div>
 
             <button
               onClick={onCreatePoll}
-              className="rounded-xl px-4 py-3 bg-cyan-500/90 hover:bg-cyan-500 text-black font-medium"
+              className="rounded-xl px-4 py-3 bg-amber-500/90 hover:bg-amber-500 text-black font-medium"
             >
               Criar votação (fecha a anterior)
             </button>
@@ -315,7 +315,7 @@ export default function AdminVotacaoPage() {
                       value={newOption}
                       onChange={(e) => setNewOption(e.target.value)}
                       placeholder="Ex: Fé / Oração / Perseverança..."
-                      className="w-full rounded-xl bg-black/40 px-4 py-3 ring-1 ring-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                      className="w-full rounded-xl bg-black/40 px-4 py-3 ring-1 ring-white/10 focus:outline-none focus:ring-2 focus:ring-amber-500"
                     />
                     <button
                       onClick={onAddOption}
@@ -371,7 +371,7 @@ export default function AdminVotacaoPage() {
                           </span>
                         </div>
                         <div className="mt-2 h-2 w-full rounded-full bg-white/10 overflow-hidden">
-                          <div className="h-2 bg-cyan-500/80" style={{ width: `${pct}%` }} />
+                          <div className="h-2 bg-amber-500/80" style={{ width: `${pct}%` }} />
                         </div>
                       </div>
                     );

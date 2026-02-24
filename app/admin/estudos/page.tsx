@@ -148,7 +148,7 @@ export default function AdminEstudosPage() {
       <div className="w-full max-w-4xl">
         <div className="flex items-center justify-between">
           <div>
-            <div className="text-xs tracking-widest text-cyan-300/80">ADMIN</div>
+            <div className="text-xs tracking-widest text-amber-300/80">ADMIN</div>
             <h1 className="mt-1 text-2xl font-semibold">Estudos</h1>
           </div>
 
@@ -209,7 +209,7 @@ export default function AdminEstudosPage() {
                 <button
                   onClick={onSubmit}
                   disabled={loading}
-                  className="flex-1 rounded-xl px-4 py-3 bg-cyan-500/20 ring-1 ring-cyan-300/30 hover:bg-cyan-500/30 disabled:opacity-50"
+                  className="flex-1 rounded-xl px-4 py-3 bg-amber-500/20 ring-1 ring-amber-300/30 hover:bg-amber-500/30 disabled:opacity-50"
                 >
                   {editing ? "Salvar alterações" : "Criar estudo"}
                 </button>
@@ -241,7 +241,7 @@ export default function AdminEstudosPage() {
                     className="rounded-xl bg-black/30 ring-1 ring-white/10 p-4"
                   >
                     <div className="text-xs text-gray-400">{s.study_date}</div>
-                    <div className="mt-1 font-semibold text-cyan-200">{s.title}</div>
+                    <div className="mt-1 font-semibold text-amber-200">{s.title}</div>
 
                     <div className="mt-3 flex gap-2">
                       <button

@@ -180,7 +180,7 @@ export default function VotacaoPage() {
                     "w-full text-left rounded-2xl p-4 ring-1 transition-all duration-150 ease-out",
                     "hover:-translate-y-[1px] hover:scale-[1.01] active:scale-[0.99]",
                     selected
-                      ? "bg-cyan-500/15 ring-cyan-400/30"
+                      ? "bg-amber-500/15 ring-amber-400/30"
                       : "bg-black/30 ring-white/10 hover:bg-white/5",
                     myOptionId
                       ? "opacity-80 cursor-not-allowed hover:translate-y-0 hover:scale-100 active:scale-100"
@@ -196,7 +196,7 @@ export default function VotacaoPage() {
 
                   <div className="mt-2 h-2 w-full rounded-full bg-white/10 overflow-hidden">
                     <div
-                      className="h-2 bg-cyan-500/80 transition-all duration-300"
+                      className="h-2 bg-amber-500/80 transition-all duration-300"
                       style={{ width: `${pct}%` }}
                     />
                   </div>
@@ -209,7 +209,7 @@ export default function VotacaoPage() {
             Total de votos: <span className="text-gray-200">{totalVotes}</span>
           </div>
 
-          {myOptionId && <div className="mt-3 text-sm text-cyan-300">Você já votou ✅</div>}
+          {myOptionId && <div className="mt-3 text-sm text-amber-300">Você já votou ✅</div>}
 
           {msg && <p className="mt-4 text-sm text-rose-300">{msg}</p>}
         </div>

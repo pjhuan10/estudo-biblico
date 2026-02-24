@@ -20,8 +20,8 @@ export default function LoginPage() {
         router.push("/");
       } else {
         await signUp(email, password);
-        setMsg("Conta criada! Agora faça login.");
-        setMode("login");
+       setMsg("Conta criada! Enviamos um link no seu e-mail. Abra e confirme para ativar a conta.");
+       setMode("login");   
       }
     } catch (err: any) {
       setMsg(err?.message ?? "Erro ao autenticar");
@@ -65,7 +65,7 @@ export default function LoginPage() {
           )}
 
           <button
-            className="w-full rounded-xl px-4 py-3 bg-cyan-500/20 ring-1 ring-cyan-300/30 hover:bg-cyan-500/30"
+            className="w-full rounded-xl px-4 py-3 bg-amber-500/20 ring-1 ring-amber-300/30 hover:bg-amber-500/30"
             type="submit"
           >
             {mode === "login" ? "Entrar" : "Criar conta"}
@@ -73,7 +73,7 @@ export default function LoginPage() {
         </form>
 
         <button
-          className="mt-4 w-full text-sm text-cyan-300/90 hover:text-cyan-200"
+          className="mt-4 w-full text-sm text-amber-300/90 hover:text-amber-200"
           onClick={() => setMode(mode === "login" ? "signup" : "login")}
         >
           {mode === "login"

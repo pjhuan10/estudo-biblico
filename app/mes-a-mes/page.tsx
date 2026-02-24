@@ -42,7 +42,7 @@ export default function MesAMes() {
   return (
     <main className="min-h-screen p-6 flex justify-center">
       <div className="w-full max-w-3xl">
-        <div className="text-xs tracking-widest text-cyan-300/80">ESTUDO BÍBLICO</div>
+        <div className="text-xs tracking-widest text-amber-300/80">ESTUDO BÍBLICO</div>
         <h1 className="mt-2 text-3xl font-semibold">Mês a mês</h1>
 
         <div className="mt-6 rounded-2xl bg-white/5 ring-1 ring-white/10 p-5">
@@ -59,7 +59,7 @@ export default function MesAMes() {
               {items.map((s) => (
                 <li key={s.id} className="rounded-xl bg-black/30 ring-1 ring-white/10 p-4">
                   <div className="text-sm text-gray-400">{s.study_date}</div>
-                  <div className="mt-1 text-lg font-semibold text-cyan-300">{s.title}</div>
+                  <div className="mt-1 text-lg font-semibold text-amber-300">{s.title}</div>
 
                   <div className="mt-2 text-gray-200">
                     <span className="text-gray-400">Textos:</span>{" "}
