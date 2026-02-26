@@ -29,7 +29,6 @@ export async function POST(req: Request) {
     const readable = new ReadableStream({
       async start(controller) {
         try {
-          // Stream via Responses API
           const stream = await client.responses.create({
             model: "gpt-5",
             input: [{ role: "system", content: system }, ...lastMessages(messages, 10)],
@@ -41,9 +40,7 @@ export async function POST(req: Request) {
               controller.enqueue(encoder.encode(event.delta));
             }
 
-            if (event?.type === "response.completed") {
-              break;
-            }
+            if (event?.type === "response.completed") break;
 
             if (event?.type === "response.failed") {
               throw new Error("Falha na geração da resposta.");
@@ -54,7 +51,6 @@ export async function POST(req: Request) {
             }
           }
         } catch (e: any) {
-          // devolve erro como texto (pra aparecer no client se você quiser logar)
           controller.enqueue(
             encoder.encode(`\n\n[erro] ${e?.message ?? "Erro inesperado"}\n`)
           );
