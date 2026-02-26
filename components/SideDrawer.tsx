@@ -42,6 +42,14 @@ export default function SideDrawer({
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
+    // bloqueia scroll do fundo no mobile (iOS principalmente)
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
   const items: Item[] = useMemo(
     () => [
       { section: "Geral", label: "Página inicial", href: "/" },
@@ -95,7 +103,7 @@ export default function SideDrawer({
         <div
           onClick={() => setOpen(false)}
           className={cx(
-            "absolute inset-0 bg-black/60 transition-opacity",
+            "absolute inset-0 bg-black/80 transition-opacity",
             open ? "opacity-100" : "opacity-0"
           )}
         />
@@ -103,8 +111,8 @@ export default function SideDrawer({
         {/* painel */}
         <aside
           className={cx(
-            "absolute left-0 top-0 h-full w-[86%] max-w-[340px]",
-            "bg-black/80 backdrop-blur-xl",
+            "absolute left-0 top-0 h-full w-[86%] max-w-[340px] z-50",
+            "bg-black/95",
             "ring-1 ring-white/10",
             "transition-transform duration-200",
             open ? "translate-x-0" : "-translate-x-full"
